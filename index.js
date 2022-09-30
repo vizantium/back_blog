@@ -52,8 +52,8 @@ app.post('/comments', checkAuth, CommentsController.create)
 
 async function startApp() {
     try {
-        await mongoose.connect(DB_URL, {useUnifiedTopology: true, useNewUrlParser: true})
-        app.listen(4444, () => console.log('ok'))
+        await mongoose.connect(process.env.MONGODB_URI )
+        app.listen(process.env.PORT || 4444, () => console.log('ok'))
     } catch (e) {
         console.log(e)
     }
