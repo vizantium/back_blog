@@ -7,6 +7,13 @@ import cors from 'cors'
 import {checkAuth, handleValidationErrors} from "./utils/index.js";
 
 const DB_URL = `mongodb+srv://vizantium:qwerty2002@cluster0.5fnlez0.mongodb.net/blog?retryWrites=true&w=majority`
+
+
+mongoose
+    .connect(process.env.MONGODB_URI)
+    .then(() => console.log('DB ok'))
+    .catch((err) => console.log('DB error', err))
+
 const app = express()
 
 const storage = multer.diskStorage({
@@ -50,13 +57,10 @@ app.post('/comments', checkAuth, CommentsController.create)
 
 
 
-async function startApp() {
-    try {
-        await mongoose.connect(process.env.MONGODB_URI )
-        app.listen(process.env.PORT || 4444, () => console.log('ok'))
-    } catch (e) {
-        console.log(e)
+app.listen(process.env.PORT || 4444, (err) => {
+    if (err) {
+        return console.log(err);
     }
-}
 
-startApp()
+    console.log('Server OK');
+});
